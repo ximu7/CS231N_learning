@@ -44,7 +44,7 @@ import matplotlib.pyplot as plt
 #         super(Net, self).__init__()
 #         self.hidden = torch.nn.Linear(n_feature, nhidden)
 #         self.preditc = torch.nn.Linear(nhidden, n_output)
-    
+
 #     def forward(self, x):
 #         x = torch.relu(self.hidden(x))
 #         x = self.preditc(x)
@@ -69,10 +69,10 @@ import matplotlib.pyplot as plt
 #         plt.text(0.5, 0, 'loss = %.4f' % loss.data.item(), fontdict = {'size': 20, 'color' :'red'})
 #         plt.pause(0.1)
 # plt.ioff()
-# plt.show()  
+# plt.show()
 
 # -------------------------------------------------------------------------------------------------------------
-## 简单分类
+# 简单分类
 
 # n_data = torch.ones(100,2)
 # x0 = torch.normal(2 * n_data , 1)
@@ -96,7 +96,7 @@ import matplotlib.pyplot as plt
 #         super(Net, self).__init__()
 #         self.hidden = torch.nn.Linear(n_feature, nhidden)
 #         self.preditc = torch.nn.Linear(nhidden, n_output)
-    
+
 #     def forward(self, x):
 #         x = torch.relu(self.hidden(x))
 #         x = self.preditc(x)
@@ -128,8 +128,7 @@ import matplotlib.pyplot as plt
 #         plt.text(1.5, -4, 'Accu = %.2f' % accu, fontdict = {'size': 20, 'color':'red'})
 #         plt.pause(0.1)
 # plt.ioff()
-# plt.show() 
-
+# plt.show()
 
 # -------------------------------------------------------------------------------------------------------------
 
@@ -158,7 +157,6 @@ import matplotlib.pyplot as plt
 #     torch.nn.Linear(10,2),
 # )
 
-
 # -------------------------------------------------------------------------------------------------------------
 
 ##保存网络 和提取网络
@@ -177,12 +175,12 @@ import matplotlib.pyplot as plt
 #     )
 #     optimizer = torch.optim.SGD(net.parameters(), lr = 0.5)
 #     loss_func = torch.nn.MSELoss()
-    
+
 #     for t in range(100):
 #         scores = net(x)
 #         loss = loss_func(scores, y)
 #         optimizer.zero_grad()
-#         loss.backward() 
+#         loss.backward()
 #         optimizer.step()
 
 #     torch.save(net, 'net.pkl')#保存entire_net
@@ -206,7 +204,7 @@ import matplotlib.pyplot as plt
 #     net3 = torch.nn.Sequential(
 #         torch.nn.Linear(1, 10),
 #         torch.nn.ReLU(),
-#         torch.nn.Linear(10, 1),        
+#         torch.nn.Linear(10, 1),
 #     )
 #     net3.load_state_dict(torch.load('net_params.pkl'))
 #     y3 = net3(x)
@@ -221,7 +219,6 @@ import matplotlib.pyplot as plt
 # restore_net()
 # # 提取参数
 # restore_params()
-
 
 # -------------------------------------------------------------------------------------------------------------
 #批训练
@@ -240,15 +237,14 @@ import matplotlib.pyplot as plt
 #     num_workers = 0 ,
 # )
 
-
 # for epoch in range(3):   # 训练所有!整套!数据 3 次
 #     for step, (batch_x, batch_y) in enumerate(loader):  # 每一步 loader 释放一小批数据用来学习
 #         # 假设这里就是你训练的地方...
- 
+
 #         # 打出来一些数据
 #         print('Epoch: ', epoch, '| Step: ', step, '| batch x: ',
 #               batch_x.numpy(), '| batch y: ', batch_y.numpy())
-# 
+#
 
 # -------------------------------------------------------------------------------------------------------------
 
@@ -287,7 +283,6 @@ import matplotlib.pyplot as plt
 # )
 # nets=[net_SGD, net_Momentum, net_RMSprop, net_Adam]
 
-
 # optimizer_SGD = torch.optim.SGD(net_SGD.parameters(), lr = LR)
 # optimizer_Momentum = torch.optim.SGD(net_Momentum.parameters(), lr = LR, momentum = 0.9)
 # optimizer_RMSprop = torch.optim.RMSprop(net_RMSprop.parameters(), lr = LR, alpha = 0.9)
@@ -310,7 +305,7 @@ import matplotlib.pyplot as plt
 # labels = ['SGD', 'Momentum', 'RMSprop', 'Adam']
 # for i, l_his in enumerate(LOSSES_HIS):
 #     plt.plot(l_his, label = labels[i])
-# plt.legend(loc = 'best')        
+# plt.legend(loc = 'best')
 # plt.xlabel('step')
 # plt.ylabel('Loss')
 # plt.show()
@@ -318,94 +313,97 @@ import matplotlib.pyplot as plt
 # -------------------------------------------------------------------------------------------------------------
 #CNN的尝试
 
-# import torch.nn as nn
-# from torch.autograd import Variable
-# import torch.utils.data as Data
-# import torchvision 
-# import matplotlib.pyplot as plt
+import torch.nn as nn
+from torch.autograd import Variable
+import torch.utils.data as Data
+import torchvision
+import matplotlib.pyplot as plt
 
-# # hyper parameters 
-# EPOCH = 1 
-# BANCH_SIZE = 50 
-# LR = 0.001 
-# download_mnist = False
+# hyper parameters
+EPOCH = 1
+BANCH_SIZE = 50
+LR = 0.001
+download_mnist = False
 
-# train_data = torchvision.datasets.MNIST(
-#     root = './mnist',
-#     train = True,
-#     transform = torchvision.transforms.ToTensor(), #由于是黑白图片 所以每个像素的值只有一个，范围（0，1）
-#     download = False
-# )
+train_data = torchvision.datasets.MNIST(
+    root='./mnist',
+    train=True,
+    transform=torchvision.transforms.ToTensor(),  #由于是黑白图片 所以每个像素的值只有一个，范围（0，1）
+    download=False)
 
-# plot one example
-# print(train_data.train_data.size())#(60000,28,28)
-# print(train_data.train_labels.size())#(60000,1)
-# plt.imshow(train_data.train_data[1].numpy(),cmap='gray')
-# plt.title('%i' % train_data.train_labels[1])
-# plt.show()
+print(train_data.train_data.size())  #(60000,28,28)
+print(train_data.train_labels.size())  #(60000,1)
+plt.imshow(train_data.train_data[1].numpy(), cmap='gray')
+plt.title('%i' % train_data.train_labels[1])
+plt.show()
 
-# train_loader = Data.DataLoader(dataset = train_data, batch_size = BANCH_SIZE, shuffle = True, num_workers = 0 )
+train_loader = Data.DataLoader(dataset=train_data,
+                               batch_size=BANCH_SIZE,
+                               shuffle=True,
+                               num_workers=0)
 
-# test_data = torchvision.datasets.MNIST(
-#     root = './mnist',
-#     train = False,
-# )
-# test_x = Variable(torch.unsqueeze(test_data.test_data, dim = 1), volatile = True).type(torch.FloatTensor)[:2000]/255.
-# test_y = test_data.targets[:2000]
-# class CNN(nn.Module):
-#     def __init__(self):
-#         super(CNN, self).__init__()
-#         self.conv1 = nn.Sequential(
-#             nn.Conv2d(
-#                 in_channels = 1, 
-#                 out_channels = 16,
-#                 kernel_size = 5,
-#                 stride = 1,
-#                 padding= 2, #if stride = 1 , padding = (kernel-1)/2
-
-#             ),
-#             nn.ReLU(),#(16,28,28)
-#             nn.MaxPool2d(
-#                 kernel_size = 2,
-#             ),#(16,14,14)
-#         )
-#         self.conv2 = nn.Sequential(
-#             nn.Conv2d(16, 32, 5, 1, 2),
-#             nn.ReLU(),#(32,14,14)
-#             nn.MaxPool2d(2),#(32,7,7)
-#         )
-#         self.af =nn.Linear(32 * 7 *7 , 10)
-#     def forward(self, x):
-#         x = self.conv1(x)
-#         x = self.conv2(x) #(batch, 32, 7 , 7)
-#         x = x.view(x.size(0), -1) #(batch ,32 * 7 * 7)
-#         output = self.af(x)
-#         return output
-# cnn = CNN()
-# optimizer = torch.optim.Adam(cnn.parameters(), lr = LR)
-# loss_func = nn.CrossEntropyLoss()
+test_data = torchvision.datasets.MNIST(
+    root='./mnist',
+    train=False,
+)
+test_x = torch.unsqueeze(test_data.test_data, dim=1).type(
+    torch.FloatTensor)[:2000] / 255.
+test_y = test_data.targets[:2000]
 
 
-# for epoch in range(EPOCH): 
-#     for step, (x, y) in enumerate(train_loader):
-#         b_x = Variable(x)
-#         b_y = Variable(y)
-#         pred = cnn(b_x)
-#         loss = loss_func(pred, b_y)
-#         optimizer.zero_grad()
-#         loss.backward()
-#         optimizer.step()
-#         if step % 50 == 0 :
-#             test_output = cnn(test_x)
-#             pred_y = torch.max(test_output, 1)[1].data.squeeze()
-#             # print(test_y.size(0))
-#             accurancy = torch.sum(pred_y == test_y).item()/test_y.size(0)
-#             print('epoch',epoch,'|train loss %.4f' % loss.data.item(), '/test acc %.2f' % accurancy)
-# test_output = cnn(test_x[:10])
-# pred_y = torch.max(test_output, 1)[1].data.squeeze()
-# print(pred_y.numpy(),'prediction number')
-# print(test_y[:10].numpy(),'real number')
-            
+class CNN(nn.Module):
+    def __init__(self):
+        super(CNN, self).__init__()
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels=1,
+                out_channels=16,
+                kernel_size=5,
+                stride=1,
+                padding=2,  #if stride = 1 , padding = (kernel-1)/2
+            ),
+            nn.ReLU(),  #(16,28,28)
+            nn.MaxPool2d(kernel_size=2, ),  #(16,14,14)
+        )
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(16, 32, 5, 1, 2),
+            nn.ReLU(),  #(32,14,14)
+            nn.MaxPool2d(2),  #(32,7,7)
+        )
+        self.af = nn.Linear(32 * 7 * 7, 10)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.conv2(x)  #(batch, 32, 7 , 7)
+        x = x.view(x.size(0), -1)  #(batch ,32 * 7 * 7)
+        output = self.af(x)
+        return output
+
+
+cnn = CNN()
+optimizer = torch.optim.Adam(cnn.parameters(), lr=LR)
+loss_func = nn.CrossEntropyLoss()
+
+for epoch in range(EPOCH):
+    for step, (x, y) in enumerate(train_loader):
+        b_x = x
+        b_y = y
+        pred = cnn(b_x)
+        loss = loss_func(pred, b_y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        if step % 50 == 0:
+            test_output = cnn(test_x)
+            pred_y = torch.max(test_output, 1)[1].data.squeeze()
+            # print(test_y.size(0))
+            accurancy = torch.sum(pred_y == test_y).item() / test_y.size(0)
+            print('epoch', epoch, '|train loss %.4f' % loss.data.item(),
+                  '/test acc %.2f' % accurancy)
+test_output = cnn(test_x[:10])
+pred_y = torch.max(test_output, 1)[1].data.squeeze()
+print(pred_y.numpy(), 'prediction number')
+print(test_y[:10].numpy(), 'real number')
 
 # -------------------------------------------------------------------------------------------------------------
 # #RNN尝试
@@ -416,7 +414,6 @@ import matplotlib.pyplot as plt
 # import matplotlib.pyplot as plt
 # import torch.utils.data as Data
 
-
 # torch.manual_seed(1)    # reproducible
 
 # # Hyper Parameters
@@ -426,7 +423,6 @@ import matplotlib.pyplot as plt
 # INPUT_SIZE = 28     # rnn 每步输入值 / 图片每行像素
 # LR = 0.01           # learning rate
 # DOWNLOAD_MNIST = False  # 如果你已经下载好了mnist数据就写上 Fasle
-
 
 # # Mnist 手写数字
 # train_data = dsets.MNIST(
@@ -456,7 +452,7 @@ import matplotlib.pyplot as plt
 #             hidden_size=64,     # rnn hidden unit
 #             num_layers=1,       # 有几层 RNN layers
 #             batch_first=True,# input & output 会是以 batch size 为第一维度的特征集 e.g. (batch, time_step, input_size)
-            
+
 #         )
 
 #         self.out = nn.Linear(64, 10)    # 输出层
@@ -490,14 +486,11 @@ import matplotlib.pyplot as plt
 #             pre_testy = torch.max(test_out, 1)[1].data.squeeze()
 #             accuracy = torch.sum(pre_testy == test_y).numpy()/ test_y.size(0)
 #             print('EPOCH:', epoch, '|train loss : %.4f' % loss.data, '|test accu= %.2f' % accuracy)
-        
+
 # test_output = rnn(test_x[:10].view(-1, 28, 28))
 # pre_y = torch.max(test_output, 1)[1].data.numpy().squeeze()
 # print(pre_y)
 # print(test_y[:10])
-
-
-
 
 # -------------------------------------------------------------------------------------------------------------
 #LSTM  做回归的任务
@@ -522,7 +515,6 @@ import matplotlib.pyplot as plt
 # plt.plot(steps, x_np, 'b-', label='input (sin)')
 # plt.legend(loc='best')
 # plt.show()
-
 
 # class RNN(nn.Module):
 #     def __init__(self):
@@ -552,8 +544,8 @@ import matplotlib.pyplot as plt
 #         # outs = self.out(r_out)
 #         # outs = outs.view(-1, TIME_STEP, 1)
 #         # return outs, h_state
-        
-#         # or even simpler, since nn.Linear can accept inputs of any dimension 
+
+#         # or even simpler, since nn.Linear can accept inputs of any dimension
 #         # and returns outputs with same dimension except for the last
 #         # outs = self.out(r_out)
 #         # return outs
@@ -719,7 +711,6 @@ import matplotlib.pyplot as plt
 # N_STATES = env.observation_space.shape[0]
 # ENV_A_SHAPE = 0 if isinstance(env.action_space.sample(), int) else env.action_space.sample().shape     # to confirm the shape
 
-
 # class Net(nn.Module):
 #     def __init__(self, ):
 #         super(Net, self).__init__()
@@ -733,7 +724,6 @@ import matplotlib.pyplot as plt
 #         x = F.relu(x)
 #         actions_value = self.out(x)
 #         return actions_value
-
 
 # class DQN(object):
 #     def __init__(self):
@@ -844,7 +834,6 @@ import matplotlib.pyplot as plt
 # # plt.legend(loc='upper right')
 # # plt.show()
 
-
 # def artist_works():     # painting from the famous artist (real target)
 #     a = np.random.uniform(1, 2, size=BATCH_SIZE)[:, np.newaxis]
 #     paintings = a * np.power(PAINT_POINTS, 2) + (a-1)
@@ -922,7 +911,6 @@ import matplotlib.pyplot as plt
 # test_x = torch.unsqueeze(test_data.test_data, dim=1).type(torch.FloatTensor)[:2000].cuda()/255.   # Tensor on GPU
 # test_y = test_data.test_labels[:2000].cuda()
 
-
 # class CNN(nn.Module):
 #     def __init__(self):
 #         super(CNN, self).__init__()
@@ -967,7 +955,6 @@ import matplotlib.pyplot as plt
 
 #             accuracy = torch.sum(pred_y == test_y).type(torch.FloatTensor) / test_y.size(0)
 #             print('Epoch: ', epoch, '| train loss: %.4f' % loss.data.cpu().numpy(), '| test accuracy: %.2f' % accuracy)
-
 
 # test_output = cnn(test_x[:10])
 
@@ -1069,154 +1056,151 @@ import matplotlib.pyplot as plt
 
 # --------------------------------------------------------------------------------------------------------------------------
 # # # DROPOUT 比较
-import torch
-from torch import nn
-from torch.nn import init
-import torch.utils.data as Data
-import matplotlib.pyplot as plt
-import numpy as np
+# import torch
+# from torch import nn
+# from torch.nn import init
+# import torch.utils.data as Data
+# import matplotlib.pyplot as plt
+# import numpy as np
 
-# torch.manual_seed(1)    # reproducible
-# np.random.seed(1)
+# # torch.manual_seed(1)    # reproducible
+# # np.random.seed(1)
 
-# Hyper parameters
-N_SAMPLES = 2000
-BATCH_SIZE = 64
-EPOCH = 12
-LR = 0.03
-N_HIDDEN = 8
-ACTIVATION = torch.tanh
-B_INIT = -0.2   # use a bad bias constant initializer
+# # Hyper parameters
+# N_SAMPLES = 2000
+# BATCH_SIZE = 64
+# EPOCH = 12
+# LR = 0.03
+# N_HIDDEN = 8
+# ACTIVATION = torch.tanh
+# B_INIT = -0.2   # use a bad bias constant initializer
 
-# training data
-x = np.linspace(-7, 10, N_SAMPLES)[:, np.newaxis]
-noise = np.random.normal(0, 2, x.shape)
-y = np.square(x) - 5 + noise
+# # training data
+# x = np.linspace(-7, 10, N_SAMPLES)[:, np.newaxis]
+# noise = np.random.normal(0, 2, x.shape)
+# y = np.square(x) - 5 + noise
 
-# test data
-test_x = np.linspace(-7, 10, 200)[:, np.newaxis]
-noise = np.random.normal(0, 2, test_x.shape)
-test_y = np.square(test_x) - 5 + noise
+# # test data
+# test_x = np.linspace(-7, 10, 200)[:, np.newaxis]
+# noise = np.random.normal(0, 2, test_x.shape)
+# test_y = np.square(test_x) - 5 + noise
 
-train_x, train_y = torch.from_numpy(x).float(), torch.from_numpy(y).float()
-test_x = torch.from_numpy(test_x).float()
-test_y = torch.from_numpy(test_y).float()
+# train_x, train_y = torch.from_numpy(x).float(), torch.from_numpy(y).float()
+# test_x = torch.from_numpy(test_x).float()
+# test_y = torch.from_numpy(test_y).float()
 
-train_dataset = Data.TensorDataset(train_x, train_y)
-train_loader = Data.DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0,)
+# train_dataset = Data.TensorDataset(train_x, train_y)
+# train_loader = Data.DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0,)
 
-# show data
-plt.scatter(train_x.numpy(), train_y.numpy(), c='#FF9359', s=50, alpha=0.2, label='train')
-plt.legend(loc='upper left')
+# # show data
+# plt.scatter(train_x.numpy(), train_y.numpy(), c='#FF9359', s=50, alpha=0.2, label='train')
+# plt.legend(loc='upper left')
 
+# class Net(nn.Module):
+#     def __init__(self, batch_normalization=False):
+#         super(Net, self).__init__()
+#         self.do_bn = batch_normalization
+#         self.fcs = []
+#         self.bns = []
+#         self.bn_input = nn.BatchNorm1d(1, momentum=0.5)   # for input data
 
-class Net(nn.Module):
-    def __init__(self, batch_normalization=False):
-        super(Net, self).__init__()
-        self.do_bn = batch_normalization
-        self.fcs = []
-        self.bns = []
-        self.bn_input = nn.BatchNorm1d(1, momentum=0.5)   # for input data
+#         for i in range(N_HIDDEN):               # build hidden layers and BN layers
+#             input_size = 1 if i == 0 else 10
+#             fc = nn.Linear(input_size, 10)
+#             setattr(self, 'fc%i' % i, fc)       # IMPORTANT set layer to the Module
+#             self._set_init(fc)                  # parameters initialization
+#             self.fcs.append(fc)
+#             if self.do_bn:
+#                 bn = nn.BatchNorm1d(10, momentum=0.5)
+#                 setattr(self, 'bn%i' % i, bn)   # IMPORTANT set layer to the Module
+#                 self.bns.append(bn)
 
-        for i in range(N_HIDDEN):               # build hidden layers and BN layers
-            input_size = 1 if i == 0 else 10
-            fc = nn.Linear(input_size, 10)
-            setattr(self, 'fc%i' % i, fc)       # IMPORTANT set layer to the Module
-            self._set_init(fc)                  # parameters initialization
-            self.fcs.append(fc)
-            if self.do_bn:
-                bn = nn.BatchNorm1d(10, momentum=0.5)
-                setattr(self, 'bn%i' % i, bn)   # IMPORTANT set layer to the Module
-                self.bns.append(bn)
+#         self.predict = nn.Linear(10, 1)         # output layer
+#         self._set_init(self.predict)            # parameters initialization
 
-        self.predict = nn.Linear(10, 1)         # output layer
-        self._set_init(self.predict)            # parameters initialization
+#     def _set_init(self, layer):
+#         init.normal_(layer.weight, mean=0., std=.1)
+#         init.constant_(layer.bias, B_INIT)
 
-    def _set_init(self, layer):
-        init.normal_(layer.weight, mean=0., std=.1)
-        init.constant_(layer.bias, B_INIT)
+#     def forward(self, x):
+#         pre_activation = [x]
+#         if self.do_bn: x = self.bn_input(x)     # input batch normalization
+#         layer_input = [x]
+#         for i in range(N_HIDDEN):
+#             x = self.fcs[i](x)
+#             pre_activation.append(x)
+#             if self.do_bn: x = self.bns[i](x)   # batch normalization
+#             x = ACTIVATION(x)
+#             layer_input.append(x)
+#         out = self.predict(x)
+#         return out, layer_input, pre_activation
 
-    def forward(self, x):
-        pre_activation = [x]
-        if self.do_bn: x = self.bn_input(x)     # input batch normalization
-        layer_input = [x]
-        for i in range(N_HIDDEN):
-            x = self.fcs[i](x)
-            pre_activation.append(x)
-            if self.do_bn: x = self.bns[i](x)   # batch normalization
-            x = ACTIVATION(x)
-            layer_input.append(x)
-        out = self.predict(x)
-        return out, layer_input, pre_activation
+# nets = [Net(batch_normalization=False), Net(batch_normalization=True)]
 
-nets = [Net(batch_normalization=False), Net(batch_normalization=True)]
+# # print(*nets)    # print net architecture
 
-# print(*nets)    # print net architecture
+# opts = [torch.optim.Adam(net.parameters(), lr=LR) for net in nets]
 
-opts = [torch.optim.Adam(net.parameters(), lr=LR) for net in nets]
+# loss_func = torch.nn.MSELoss()
 
-loss_func = torch.nn.MSELoss()
+# def plot_histogram(l_in, l_in_bn, pre_ac, pre_ac_bn):
+#     for i, (ax_pa, ax_pa_bn, ax, ax_bn) in enumerate(zip(axs[0, :], axs[1, :], axs[2, :], axs[3, :])):
+#         [a.clear() for a in [ax_pa, ax_pa_bn, ax, ax_bn]]
+#         if i == 0:
+#             p_range = (-7, 10);the_range = (-7, 10)
+#         else:
+#             p_range = (-4, 4);the_range = (-1, 1)
+#         ax_pa.set_title('L' + str(i))
+#         ax_pa.hist(pre_ac[i].data.numpy().ravel(), bins=10, range=p_range, color='#FF9359', alpha=0.5);ax_pa_bn.hist(pre_ac_bn[i].data.numpy().ravel(), bins=10, range=p_range, color='#74BCFF', alpha=0.5)
+#         ax.hist(l_in[i].data.numpy().ravel(), bins=10, range=the_range, color='#FF9359');ax_bn.hist(l_in_bn[i].data.numpy().ravel(), bins=10, range=the_range, color='#74BCFF')
+#         for a in [ax_pa, ax, ax_pa_bn, ax_bn]: a.set_yticks(());a.set_xticks(())
+#         ax_pa_bn.set_xticks(p_range);ax_bn.set_xticks(the_range)
+#         axs[0, 0].set_ylabel('PreAct');axs[1, 0].set_ylabel('BN PreAct');axs[2, 0].set_ylabel('Act');axs[3, 0].set_ylabel('BN Act')
+#     plt.pause(0.01)
 
+# if __name__ == "__main__":
+#     f, axs = plt.subplots(4, N_HIDDEN + 1, figsize=(10, 5))
+#     plt.ion()  # something about plotting
+#     plt.show()
 
-def plot_histogram(l_in, l_in_bn, pre_ac, pre_ac_bn):
-    for i, (ax_pa, ax_pa_bn, ax, ax_bn) in enumerate(zip(axs[0, :], axs[1, :], axs[2, :], axs[3, :])):
-        [a.clear() for a in [ax_pa, ax_pa_bn, ax, ax_bn]]
-        if i == 0:
-            p_range = (-7, 10);the_range = (-7, 10)
-        else:
-            p_range = (-4, 4);the_range = (-1, 1)
-        ax_pa.set_title('L' + str(i))
-        ax_pa.hist(pre_ac[i].data.numpy().ravel(), bins=10, range=p_range, color='#FF9359', alpha=0.5);ax_pa_bn.hist(pre_ac_bn[i].data.numpy().ravel(), bins=10, range=p_range, color='#74BCFF', alpha=0.5)
-        ax.hist(l_in[i].data.numpy().ravel(), bins=10, range=the_range, color='#FF9359');ax_bn.hist(l_in_bn[i].data.numpy().ravel(), bins=10, range=the_range, color='#74BCFF')
-        for a in [ax_pa, ax, ax_pa_bn, ax_bn]: a.set_yticks(());a.set_xticks(())
-        ax_pa_bn.set_xticks(p_range);ax_bn.set_xticks(the_range)
-        axs[0, 0].set_ylabel('PreAct');axs[1, 0].set_ylabel('BN PreAct');axs[2, 0].set_ylabel('Act');axs[3, 0].set_ylabel('BN Act')
-    plt.pause(0.01)
+#     # training
+#     losses = [[], []]  # recode loss for two networks
 
+#     for epoch in range(EPOCH):
+#         print('Epoch: ', epoch)
+#         layer_inputs, pre_acts = [], []
+#         for net, l in zip(nets, losses):
+#             net.eval()              # set eval mode to fix moving_mean and moving_var
+#             pred, layer_input, pre_act = net(test_x)
+#             l.append(loss_func(pred, test_y).data.item())
+#             layer_inputs.append(layer_input)
+#             pre_acts.append(pre_act)
+#             net.train()             # free moving_mean and moving_var
+#         plot_histogram(*layer_inputs, *pre_acts)     # plot histogram
 
-if __name__ == "__main__":
-    f, axs = plt.subplots(4, N_HIDDEN + 1, figsize=(10, 5))
-    plt.ion()  # something about plotting
-    plt.show()
+#         for step, (b_x, b_y) in enumerate(train_loader):
+#             for net, opt in zip(nets, opts):     # train for each network
+#                 pred, _, _ = net(b_x)
+#                 loss = loss_func(pred, b_y)
+#                 opt.zero_grad()
+#                 loss.backward()
+#                 opt.step()    # it will also learns the parameters in Batch Normalization
 
-    # training
-    losses = [[], []]  # recode loss for two networks
+#     plt.ioff()
 
-    for epoch in range(EPOCH):
-        print('Epoch: ', epoch)
-        layer_inputs, pre_acts = [], []
-        for net, l in zip(nets, losses):
-            net.eval()              # set eval mode to fix moving_mean and moving_var
-            pred, layer_input, pre_act = net(test_x)
-            l.append(loss_func(pred, test_y).data.item())
-            layer_inputs.append(layer_input)
-            pre_acts.append(pre_act)
-            net.train()             # free moving_mean and moving_var
-        plot_histogram(*layer_inputs, *pre_acts)     # plot histogram
-
-        for step, (b_x, b_y) in enumerate(train_loader):
-            for net, opt in zip(nets, opts):     # train for each network
-                pred, _, _ = net(b_x)
-                loss = loss_func(pred, b_y)
-                opt.zero_grad()
-                loss.backward()
-                opt.step()    # it will also learns the parameters in Batch Normalization
-
-    plt.ioff()
-
-    # plot training loss
-    plt.figure(3)
-    plt.plot(losses[0], c='#FF9359', lw=3, label='Original')
-    plt.plot(losses[1], c='#74BCFF', lw=3, label='Batch Normalization')
-    plt.xlabel('step');plt.ylabel('test loss');plt.ylim((0, 2000));plt.legend(loc='best')
-    plt.show()
-    # evaluation
-    # set net to eval mode to freeze the parameters in batch normalization layers
-    [net.eval() for net in nets]    # set eval mode to fix moving_mean and moving_var
-    preds = [net(test_x)[0] for net in nets]
-    plt.figure(4)
-    plt.plot(test_x.data.numpy(), preds[0].data.numpy(), c='#FF9359', lw=4, label='Original')
-    plt.plot(test_x.data.numpy(), preds[1].data.numpy(), c='#74BCFF', lw=4, label='Batch Normalization')
-    plt.scatter(test_x.data.numpy(), test_y.data.numpy(), c='r', s=50, alpha=0.2, label='train')
-    plt.legend(loc='best')
-    plt.show()
+#     # plot training loss
+#     plt.figure(3)
+#     plt.plot(losses[0], c='#FF9359', lw=3, label='Original')
+#     plt.plot(losses[1], c='#74BCFF', lw=3, label='Batch Normalization')
+#     plt.xlabel('step');plt.ylabel('test loss');plt.ylim((0, 2000));plt.legend(loc='best')
+#     plt.show()
+#     # evaluation
+#     # set net to eval mode to freeze the parameters in batch normalization layers
+#     [net.eval() for net in nets]    # set eval mode to fix moving_mean and moving_var
+#     preds = [net(test_x)[0] for net in nets]
+#     plt.figure(4)
+#     plt.plot(test_x.data.numpy(), preds[0].data.numpy(), c='#FF9359', lw=4, label='Original')
+#     plt.plot(test_x.data.numpy(), preds[1].data.numpy(), c='#74BCFF', lw=4, label='Batch Normalization')
+#     plt.scatter(test_x.data.numpy(), test_y.data.numpy(), c='r', s=50, alpha=0.2, label='train')
+#     plt.legend(loc='best')
+#     plt.show()

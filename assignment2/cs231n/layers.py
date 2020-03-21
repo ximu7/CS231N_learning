@@ -605,8 +605,8 @@ def conv_forward_naive(x, w, b, conv_param):
     N, C, H, W = x.shape
     F, _, HH, WW = w.shape
     stride, pad = conv_param['stride'], conv_param['pad']
-    H_out = 1 + (H + 2 * pad - HH) / stride
-    W_out = 1 + (W + 2 * pad - WW) / stride
+    H_out = int(1 + (H + 2 * pad - HH) / stride)
+    W_out = int(1 + (W + 2 * pad - WW) / stride)
     out = np.zeros((N , F , H_out, W_out))
 
     x_pad = np.pad(x, ((0,), (0,), (pad,), (pad,)), mode='constant', constant_values=0)
@@ -653,8 +653,8 @@ def conv_backward_naive(dout, cache):
     N, C, H, W = x.shape
     F, _, HH, WW = w.shape
     stride, pad = conv_param['stride'], conv_param['pad']
-    H_out = 1 + (H + 2 * pad - HH) / stride
-    W_out = 1 + (W + 2 * pad - WW) / stride
+    H_out = int(1 + (H + 2 * pad - HH) / stride)
+    W_out = int(1 + (W + 2 * pad - WW) / stride)
     
     x_pad = np.pad(x, ((0,), (0,), (pad,), (pad,)), mode='constant', constant_values=0)
     dx = np.zeros_like(x)
@@ -709,11 +709,11 @@ def max_pool_forward_naive(x, pool_param):
 
     N, C, H, W = x.shape
     HH, WW, stride = pool_param['pool_height'], pool_param['pool_width'], pool_param['stride']
-    H_out = (H-HH)/stride+1
-    W_out = (W-WW)/stride+1
+    H_out = int((H-HH)/stride+1)
+    W_out = int((W-WW)/stride+1)
     out = np.zeros((N,C,H_out,W_out))
-    for i in xrange(H_out):
-          for j in xrange(W_out):
+    for i in range(H_out):
+          for j in range(W_out):
               x_masked = x[:,:,i*stride : i*stride+HH, j*stride : j*stride+WW]
               out[:,:,i,j] = np.max(x_masked, axis=(2,3)) 
 
@@ -749,12 +749,12 @@ def max_pool_backward_naive(dout, cache):
     x, pool_param = cache
     N, C, H, W = x.shape
     HH, WW, stride = pool_param['pool_height'], pool_param['pool_width'], pool_param['stride']
-    H_out = (H-HH)/stride+1
-    W_out = (W-WW)/stride+1
+    H_out = int((H-HH)/stride+1)
+    W_out = int((W-WW)/stride+1)
     dx = np.zeros_like(x)
     
-    for i in xrange(H_out):
-      for j in xrange(W_out):
+    for i in range(H_out):
+      for j in range(W_out):
           x_masked = x[:,:,i*stride : i*stride+HH, j*stride : j*stride+WW]
           max_x_masked = np.max(x_masked,axis=(2,3))
           temp_binary_mask = (x_masked == (max_x_masked)[:,:,None,None])
@@ -800,9 +800,9 @@ def spatial_batchnorm_forward(x, gamma, beta, bn_param):
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    N,C,H,W = dout.shape
-    dx_temp, dgamma, dbeta = batchnorm_backward_alt(dout.transpose(0,3,2,1).reshape((N*H*W,C)),cache)
-    dx = dx_temp.reshape(N,W,H,C).transpose(0,3,2,1)
+    N, C, H, W = x.shape
+    temp_output, cache = batchnorm_forward(x.transpose(0,3,2,1).reshape((N*H*W,C)), gamma, beta, bn_param)
+    out = temp_output.reshape(N,W,H,C).transpose(0,3,2,1)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
