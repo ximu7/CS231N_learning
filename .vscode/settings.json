@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "D:\\ProgramData\\Anaconda3\\python.exe",
-    "git.ignoreLimitWarning": true
+    "python.formatting.provider": "autopep8",
+    "python.pythonPath": "C:\\Users\\Ximu\\Miniconda3\\envs\\pytorch\\python.exe"
 }
